@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>Produits</title>
+    </head>
+<body>
+    <main>
+        <h1>Bienvenue sur le site ecommerce</h1>
+        <p>Voici la page produit</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>date de création</th>
+                    <th>date de modification</th>
+               </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.createdAt|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ product.updatedAt|date('Y-m-d H:i:s') }}</td>
+                    <td><a href="{{ path('product', {'id': product.id}) }}">Afficher le produit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </main>
+    </body>
+</html>
