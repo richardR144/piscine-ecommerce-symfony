@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block metatitle %}
+	{{ product.title }}
+{% endblock metatitle %}
+
+
+
+    <body>
+        {% include 'partial/_header.html.twig' %}
+	{% block main %}
+	<main class="container">
+		<section class="detail-wrapper container">
+			<h2>{{ product.title }}</h2>
+			<div>
+				<article class="category {{ product.category.color}}">
+					<h3>{{ product.title }}</h3>
+					<p>
+						<b>{{ product.description }}</b>
+					</p>
+					<span>Publié le
+						{{ product.createdAt | date('d/m/Y') }}</span>
+					{% if product.updatedAt %}
+						<span>{{ product.updatedAt | date('d/m/Y') }}</span>
+					{% endif %}
+				</article>
+			</div>
+		</section>
+	</main>
+	{% endblock main %}
+		{% include 'partial/_footer.html.twig' %}
+	</body>

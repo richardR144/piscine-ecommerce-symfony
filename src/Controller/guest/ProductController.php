@@ -8,17 +8,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CategoryRepository;
 
 
 class ProductController extends AbstractController
 {
-    #[Route('/products', name: 'product')]
-    public function displayProduct(ProductRepository $productRepository): Response
+    #[Route('/products', name: 'products-list')]
+        public function displayListProduct(CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
-        $products = $productRepository->findAll('title');
+        $product = $productRepository->findBy(['isPublished' => true]);
+        $category = $categoryRepository->findAll();
         
-        return $this->render('guest/product.html.twig', [
-            'products' => $products
+        return $this->render('guest/products-list.html.twig', [
+            'products' => $product, 'categories' => $category
+        ]);
+    }
+
+    #[Route('/products/{id}', name: 'show-product')]
+        public function showCategory($id, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    {
+        $products = $productRepository->find($id);
+        $category = $categoryRepository->findAll();
+        return $this->render('guest/show-product.html.twig', [
+            'product' => $products, 'categories' => $category
         ]);
     }
 }

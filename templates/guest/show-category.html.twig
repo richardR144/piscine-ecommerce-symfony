@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block metatitle %}
+	{{ category.title }}
+{% endblock metatitle %}
+
+
+
+    <body>
+        {% include 'partial/_header.html.twig' %}
+	{% block main %}
+	<main class="container">
+		<section class="detail-wrapper container">
+			<h2>{{ category.title }}</h2>
+			<div>
+				<article class="category {{ category.color}}">
+					<h3>{{ category.title }}</h3>
+					<p>
+						<b>{{ category.description }}</b>
+					</p>
+					<span>Publié le
+						{{ category.createdAt | date('d/m/Y') }}</span>
+					{% if category.updatedAt %}
+						<span>{{ category.updatedAt | date('d/m/Y') }}</span>
+					{% endif %}
+				</article>
+			</div>
+		</section>
+	</main>
+	{% endblock main %}
+		{% include 'partial/_footer.html.twig' %}
+	</body>
+
+
+
+    

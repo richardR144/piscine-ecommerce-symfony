@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>Produits</title>
-    </head>
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+
+
+{% block main %}
 <body>
     <main>
-        <h1>Bienvenue sur le site ecommerce</h1>
-        <p>Voici la page produit</p>
+        <h1>Voici Tous les produits</h1>
 
         <table>
             <thead>
@@ -29,7 +27,7 @@
                     <td>{{ product.price }}</td>
                     <td>{{ product.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td>{{ product.updatedAt|date('Y-m-d H:i:s') }}</td>
-                    <td><a href="{{ path('product', {'id': product.id}) }}">Afficher le produit</a></td>
+                    <td><a href="{{ path('show-product', {'id': product.id}) }}">Afficher le produit</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -37,4 +35,5 @@
 
     </main>
     </body>
+    {% endblock %}
 </html>
