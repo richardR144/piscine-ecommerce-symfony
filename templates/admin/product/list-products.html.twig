@@ -1,0 +1,29 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block main %}
+<h1>Liste des produits</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Prix</th>
+            <th>Date de création</th>
+            <th>Date de modification</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.category.title }}</td>
+            <td>{{ product.createdAt |date('d/m/Y H:i:s') }}</td>
+            <td>{{ product.updatedAt |date('d/m/Y H:i:s') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock main %}

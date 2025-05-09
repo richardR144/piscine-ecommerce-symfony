@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Controller\admin\Exception;
+use App\Repository\ProductRepository;
+
 
 
 
@@ -66,7 +68,16 @@ class AdminProductController extends AbstractController {
             //je passe la liste des catégories à la vue
 				'categories' => $categories
 		]);
-	}   
+	} 
+	
+	#[Route('/admin/list-products', name: 'admin-list-products')]
+	public function displayListProduct(ProductRepository $productRepository) {
+		$products = $productRepository->findAll();
+
+		return $this->render('admin/product/list-products.html.twig', [
+			'products' => $products
+		]);
+	}
 }
 
 /** seconde méthode pour créer un produit avec le formulaire Symfony
@@ -125,4 +136,6 @@ Dans le base, ajoutez sous le header la boucle qui permet d'afficher les message
 Modifiez le constructeur de l'entité Product pour vérifier si le titre fait moins de 3 caractères. Si c'est le cas, envoyez une exeception avec un message
 Dans le controleur, utilisez try catch autour de la création du produit (new Product) pour récupérez l'erreur et l'afficher avec un message flash
 
+6 David: Dans le controleur admin Product, créez une nouvelle page pour lister tous les produits
+Dans le twig qui affiche tous les produits, affichez les avec un tableau HTML contenant : id, title, category, prix, date de création, date de modif
 */ 

@@ -34,10 +34,10 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
-
+    /* exercice 4 et 5 */ 
     public function __construct($title, $description, $price, $isPublished, $category) {
         if (strlen($title) < 3) {
-            throw new Exception('Le titre doit faire au moins 3 caractères');
+            throw new Exception('Le titre doit faire plus de 3 caractères');
         }
         $this->title = $title;
         $this->description = $description;
