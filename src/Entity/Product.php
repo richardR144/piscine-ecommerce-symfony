@@ -44,8 +44,7 @@ class Product
         $this->description = $description;
         $this->price = $price;
         $this->isPublished = $isPublished;
-        $this->category = $category;
-
+        
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
     }
