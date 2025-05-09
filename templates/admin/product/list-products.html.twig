@@ -1,5 +1,10 @@
 {% extends 'admin/base.html.twig' %}
 
+
+{% block metatitle %}
+	Vacances ou bouffes | Liste des produits
+{% endblock metatitle %}
+
 {% block main %}
 <h1>Liste des produits</h1>
 <table>
@@ -22,6 +27,8 @@
             <td>{{ product.category.title }}</td>
             <td>{{ product.createdAt |date('d/m/Y H:i:s') }}</td>
             <td>{{ product.updatedAt |date('d/m/Y H:i:s') }}</td>
+            <td>
+                <a href="{{ path('admin-delete-product', { 'id' : product.id }) }}">Supprimer</a>
         </tr>
         {% endfor %}
     </tbody>

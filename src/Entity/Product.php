@@ -34,6 +34,7 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
+    
     /* exercice 4 et 5 */ 
     public function __construct($title, $description, $price, $isPublished, $category) {
         if (strlen($title) < 3) {

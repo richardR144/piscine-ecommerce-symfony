@@ -17,6 +17,7 @@ use App\Repository\ProductRepository;
 
 
 
+
 class AdminProductController extends AbstractController {
 
     //je créais une route pour afficher la page de création de produit url(/admin/create-product)
@@ -71,13 +72,40 @@ class AdminProductController extends AbstractController {
 	} 
 	
 	#[Route('/admin/list-products', name: 'admin-list-products')]
-	public function displayListProduct(ProductRepository $productRepository) {
+	public function displayListProduct(ProductRepository $productRepository, EntityManagerInterface $entityManager) {
 		$products = $productRepository->findAll();
 
 		return $this->render('admin/product/list-products.html.twig', [
 			'products' => $products
 		]);
 	}
+	
+	#[Route('/admin/delete-product/{id}', name:'admin-delete-product')]
+	public function deleteProduct($id, ProductRepository $productRepository, EntityManagerInterface $entityManager) {
+		
+		$product = $productRepository->find($id);
+
+		$entityManager->remove($product);
+		$entityManager->flush();
+
+		$this->addFlash('success', 'Produit supprimé !');
+
+		return $this->redirectToRoute('admin-list-products');
+	}
+	
+
+	#[Route('/admin/update-product/{id}', name: 'admin-update-product')]
+	public function displayUpdateProduct($id, ProductRepository $productRepository, CategoryRepository $categoryRepository) {
+
+		$product = $productRepository->find($id);
+
+		$categories = $categoryRepository->findAll();
+
+		return $this->render('admin/product/update-product.html.twig', [
+			'categories' => $categories,
+			'product' => $product
+		]);
+}
 }
 
 /** seconde méthode pour créer un produit avec le formulaire Symfony
@@ -138,4 +166,10 @@ Dans le controleur, utilisez try catch autour de la création du produit (new Pr
 
 6 David: Dans le controleur admin Product, créez une nouvelle page pour lister tous les produits
 Dans le twig qui affiche tous les produits, affichez les avec un tableau HTML contenant : id, title, category, prix, date de création, date de modif
-*/ 
+
+
+7 David: -- Créez une page pour mettre à jour un produit
+-- dans la méthode de controleur : 
+-- récupérez le product par rapport à l'id dans l'url
+-- récupérez toutes les catégories de la BDD
+-- affichez un formulaire HTML twig (le même que create), en pré remplissant chacun des inputs avec les données du produit récupéré*/ 
