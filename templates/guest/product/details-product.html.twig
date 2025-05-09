@@ -1,0 +1,17 @@
+{% extends 'guest/base.html.twig' %}
+
+{% block metatitle %}
+	VaVacances ou couleurcances ou couleur | Détail de {{ product.title }}
+{% endblock metatitle %}
+
+{% block main %}
+		<article>
+
+		<h1>{{ product.title }}</h1>
+		<p>{{ product.description }}</p>
+		<p>Prix : {{ product.price }}</p>
+		<p>Categorie : {{ product.category.title }} </p>
+		<p>Créé le {{ product.createdAt | date('d-m-Y') }}
+
+	</article>
+{% endblock main %}

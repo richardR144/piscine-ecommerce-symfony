@@ -1,0 +1,21 @@
+{% extends 'guest/base.html.twig' %}
+
+{% block metatitle %}
+	Vacances ou couleur | Détails de {{ category.title }}  {# affiche le megatitle dans l'onglet #}
+{% endblock metatitle %}
+
+
+{% block main %}
+	
+	<article style="border: 1px, solid, {{ category.color }};">
+
+		<h1>Categorie : {{ category.title }}</h1>
+		<p>Description : {{ category.description }}</p>
+		<p>Créé le {{ category.createdAt | date('d-m-Y') }}
+
+	</article>
+
+{% endblock main %}
+
+
+    

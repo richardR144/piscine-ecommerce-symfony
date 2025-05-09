@@ -1,0 +1,21 @@
+{% extends 'guest/base.html.twig' %}
+
+{% block metatitle %}
+	Vacances ou bouffes | Liste des produits
+{% endblock metatitle %}
+
+{% block main %}
+	{% for product in products %} 
+
+		<article>
+
+			<h2>{{ product.title }}</h2>
+			<p>{{ product.description }}</p>
+			<p>Categorie : {{ product.category.title }}</p>
+			
+			<a href="{{ path('details-product', {'id' : product.id}) }}">Voir le produit</a>
+
+		</article>
+
+	{% endfor %}
+{% endblock main %}

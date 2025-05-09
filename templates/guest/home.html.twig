@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>Home</title>
-    </head>
-<body>
-    <main>
-        <h1>Bienvenue sur le site ecommerce</h1>
-        <p>Voici la page d'accueil de notre site ecommerce</p>
+{% extends 'guest/base.html.twig' %}
 
-    </main>
-    </body>
-</html>
+{% block metatitle %}
+	Vacances ou bouffes | Accueil
+{% endblock metatitle %}
+
+{% block main %}
+	<h1>Achetez des produits en tout genre</h1>
+{% endblock main %}
         

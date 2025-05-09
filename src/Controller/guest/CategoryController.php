@@ -1,34 +1,35 @@
 <?php
 
+
 namespace App\Controller\guest;
 
-use App\Entity\Category;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
-
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends AbstractController {
 
-    #[Route('/categories', name: 'category-list')]
-    public function displayListCategory(CategoryRepository $categoryRepository): Response
-    {
-        $categories = $categoryRepository->findAll(); 
+    //je créais une route pour afficher la liste des catégories
+    //et une autre pour afficher les détails d'une catégorie
+	#[Route('/list-categories', name:'list-categories')]
+	public function displayListCategories(CategoryRepository $categoryRepository) {
+		
+		$categories = $categoryRepository->findAll();  // la méthode findAll() permet de récupérer toutes les catégories
+        
+		return $this->render('guest/category/list-categories.html.twig', [
+			'categories' => $categories
+		]);
+	}
 
-        return $this->render('guest/categories-list.html.twig', [
-            'categories' => $categories
-        ]);
-    }
+	#[Route('/details-category/{id}', name:'details-category')]
+	public function displayDetailsCategory(CategoryRepository $categoryRepository, $id) {
+		
+		$category = $categoryRepository->find($id);
 
-    #[Route('/categories/{id}', name: 'show-category')]
-    public function showCategory($id, CategoryRepository $categoryRepository): Response
-    {
-        $category = $categoryRepository->find($id); 
+		return $this->render('guest/category/details-category.html.twig', [
+			'category' => $category
+		]);
 
-        return $this->render('guest/show-category.html.twig', [
-            'category' => $category
-        ]);
-    }
+	}
+
 }

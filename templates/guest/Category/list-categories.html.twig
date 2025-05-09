@@ -1,0 +1,21 @@
+{% extends 'guest/base.html.twig' %}
+
+{% block metatitle %}
+	Vacances ou couleur| Liste des catégories
+{% endblock metatitle %}
+
+{% block main %}
+	{% for category in categories %} 
+
+		<article style="border: 1px, solid, {{ category.color }};">
+
+			<h2>{{ category.title }}</h2>
+			<p>{{ category.description }}</p>
+
+			<a href="{{ path('details-category', {'id' : category.id}) }}"> Voir le détail de la catégorie </a>
+
+		</article>
+
+	{% endfor %}
+{% endblock main %}
+	

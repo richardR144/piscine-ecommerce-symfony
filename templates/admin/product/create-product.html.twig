@@ -1,0 +1,32 @@
+<h1>Créer un produit</h1>
+
+<form method="POST">
+	<label for="title">Titre
+		<input type="text" name="title">
+	</label>
+
+	<label for="description">Description
+		<input type="text" name="description">
+	</label>
+
+	<label for="price">Prix
+		<input type="number" name="price">
+	</label>
+
+	<label for="is-published">Publié le : 
+		<input type="checkbox" name="is-published">
+	</label>
+
+
+	<select name="category-id">
+
+		{% for category in categories %}
+			<option value="{{ category.id }}">{{ category.title }}</option>
+		{% endfor %}
+	
+	</select>
+
+	<button type="submit">Créer votre produit</button>
+
+
+</form>
