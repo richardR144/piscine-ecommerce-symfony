@@ -12,14 +12,14 @@
 	<label for="price">Prix
 		<input type="number" name="price">
 	</label>
-
-	<label for="is-published">Publié le : 
-		<input type="checkbox" name="is-published">
+	{#je créais une liste déroulante avec les catégories#}
+	<label for="is-published">Publié le :     
+		<input type="checkbox" name="is-published"> 
 	</label>
 
 
-	<select name="category-id">
-
+	<select name="category-id">  {#le name="category-id" est important pour le traitement du formulaire#}
+		{# je fais une boucle sur les catégories pour les afficher dans la liste déroulante #}
 		{% for category in categories %}
 			<option value="{{ category.id }}">{{ category.title }}</option>
 		{% endfor %}

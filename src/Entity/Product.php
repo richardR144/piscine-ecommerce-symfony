@@ -34,7 +34,17 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
 
-   
+    public function __construct($title, $description, $price, $isPublished, $category) {
+
+        $this->title = $title;
+        $this->description = $description;
+        $this->price = $price;
+        $this->isPublished = $isPublished;
+        $this->category = $category;
+
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
