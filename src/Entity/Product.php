@@ -34,8 +34,8 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
-    
-    /* exercice 4 et 5 */ 
+
+    /*exercice 4 et 5*/ 
     public function __construct($title, $description, $price, $isPublished, $category) {
         if (strlen($title) < 3) {
             throw new Exception('Le titre doit faire plus de 3 caractères');
@@ -44,8 +44,28 @@ class Product
         $this->description = $description;
         $this->price = $price;
         $this->isPublished = $isPublished;
-        
+        $this->category = $category;
+
         $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+      public function update($title, $description, $price, $isPublished, $category) {
+
+        if (strlen($title) < 3) {
+            throw new Exception('Le titre doit faire plus de 3 caractères');
+        }
+
+        if ($price > 250) {
+            throw new Exception('Le prix doit être inférieur à 150');
+        }
+
+        $this->title = $title;
+        $this->description = $description;
+        $this->price = $price;
+        $this->isPublished = $isPublished;
+        $this->category = $category;
+
         $this->updatedAt = new \DateTime();
     }
 
