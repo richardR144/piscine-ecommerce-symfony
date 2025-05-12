@@ -16,6 +16,13 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            #on veut qu'il utilise la route que l'on a généré dans le controller (exercice 8)
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: admin-list-products
+            logout:
+                path: logout    
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

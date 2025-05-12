@@ -17,7 +17,12 @@
 
 		<ul>
 			<li><a href="{{path('admin-create-product')}}">Créer un produit</a></li>
+			<li><a href="{{path('admin-list-products')}}">Liste des produits</a></li>
+			<li><a href="{{path('login')}}">Se connecter</a></li>
 		</ul>
+		<p>Connecté en tant que {{ app.user.email }}</p>
+		
+		<a href="{{ path('logout')}}">Se déconnecter</a>
 
 	</nav>
 
@@ -43,7 +48,8 @@
 <main>
 
 	{% block main %}
-	{% endblock %}
+
+	{% endblock main %}
 
 </main>
 

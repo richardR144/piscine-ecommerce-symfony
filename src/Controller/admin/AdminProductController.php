@@ -47,7 +47,7 @@ class AdminProductController extends AbstractController {
 
 			try {
 				//je fais appel à l'entité Product pour créer un nouveau produit
-				$product = new Product($title, $description, $price, $isPublished, $categoryId);
+				$product = new Product($title, $description, $price, $isPublished, $category); //envoyer une catégory complète
 				$entityManager->persist($product);
             	$entityManager->flush();
 
