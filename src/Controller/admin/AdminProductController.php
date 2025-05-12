@@ -96,11 +96,11 @@ class AdminProductController extends AbstractController {
 	
 
 	#[Route('/admin/update-product/{id}', name: 'admin-update-product')]
-	public function displayUpdateProduct($id, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager) {
+	public function displayUpdateProduct($id, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager) {
 
 		$product = $productRepository->find($id);
 
-		if ($request->isMethod('POST')) {
+		if ($request->isMethod('POST')) {  //exercice 8
 
 			$title = $request->request->get('title');			
 			$description = $request->request->get('description');

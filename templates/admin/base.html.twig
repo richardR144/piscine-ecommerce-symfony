@@ -30,6 +30,14 @@
 	</div>
 
 {% endfor %}
+
+{% for message in app.flashes('success') %}
+
+	<div style="background-color: green;">
+		<p>{{ message }} </p>
+	</div>
+
+{% endfor %}
 	
 
 <main>
