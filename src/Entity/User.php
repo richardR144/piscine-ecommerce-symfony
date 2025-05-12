@@ -36,6 +36,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+       public function createAdmin($email, $passwordHashed) {
+        $this->email = $email;
+        $this->password = $passwordHashed;
+
+        $this->roles = ['ROLE_ADMIN'];
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
