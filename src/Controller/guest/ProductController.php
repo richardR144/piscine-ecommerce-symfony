@@ -6,13 +6,14 @@ namespace App\Controller\guest;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends AbstractController {
 
     //je créais une route pour afficher la liste des produits
     //et une autre pour afficher les détails d'un produit
-	#[Route('/list-products', name:'list-products')]
-	public function displayListProducts(ProductRepository $productRepository) {
+	#[Route('/list-products', name:'list-products', methods: ['GET'])]
+	public function displayListProducts(ProductRepository $productRepository): Response {
 		// la méthode findBy() permet de récupérer les produits publiés
 		$productsPublished = $productRepository->findBy(['isPublished' => true]);
         //je retourne la liste des produits publiés en utilisant la méthode render()
@@ -23,11 +24,15 @@ class ProductController extends AbstractController {
 		]);
 	}
 
-	#[Route('/details-product/{id}', name:'details-product')]
-	public function displayDetailsProduct(ProductRepository $productRepository, $id) {
+	#[Route('/details-product/{id}', name:'details-product', methods: ['GET'])]
+	public function displayDetailsProduct(ProductRepository $productRepository, int $id): Response {
 		// la méthode find() permet de récupérer un produit par son id
         //je récupère le produit correspondant à l'id passé en paramètre
 		$product = $productRepository->find($id);
+
+		if(!$product) {
+			return $this->redirectToRoute("404");
+		}
 
 		return $this->render('guest/product/details-product.html.twig', [
 			'product' => $product

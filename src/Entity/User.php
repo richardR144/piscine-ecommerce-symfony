@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     #Initialise un utilisateur admin avec email, mot de passe hashé et rôle admin
-    public function createAdmin($email, $passwordHashed) { 
+    public function createAdmin(string $email, string $passwordHashed) { 
         $this->email = $email;
         $this->password = $passwordHashed;
 

@@ -36,7 +36,7 @@ class Product
     private ?Category $category = null;
 
     /*exercice 4 et 5*/ 
-    public function __construct($title, $description, $price, $isPublished, $category) {
+    public function __construct(string $title, string $description, float $price, bool $isPublished, Category $category) {
         if (strlen($title) < 3) {
             throw new Exception('Le titre doit faire plus de 3 caractères');
         }
@@ -50,7 +50,7 @@ class Product
         $this->updatedAt = new \DateTime();
     }
 
-      public function update($title, $description, $price, $isPublished, $category) {
+      public function update(string $title, string $description, float $price, bool $isPublished, Category $category) {
 
         if (strlen($title) < 3) {
             throw new Exception('Le titre doit faire plus de 3 caractères');

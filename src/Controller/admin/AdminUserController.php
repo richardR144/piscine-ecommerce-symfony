@@ -10,13 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 
 
 
 class AdminUserController extends AbstractController {
-    #[Route('/admin/create-admin', name: 'admin-create-admin')]
-    public function displayCreateUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager) {
+    #[Route(path: '/admin/create-user', name: 'admin-create-user', methods: ['GET', 'POST'])]
+    public function displayCreateUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response {
 
         if($request->isMethod('POST')) {                    // je vérifie que les données sont envoyés en POST
             $email = $request->request->get('email');       // je récupère l'email et le mot de passe envoyée par le formulaire
@@ -37,33 +38,34 @@ class AdminUserController extends AbstractController {
             // Utilise une méthode personnalisée pour initialiser l'admin
 
             try {   //exo 13, 14
-				$entityManager->persist($user);
-				$entityManager->flush();
-				$this->addFlash('success','Admin créé');
-				return $this->redirectToRoute('admin-list-admins');
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success','Admin créé');
+                return $this->redirectToRoute('admin-list-admins');
 
-			} catch(Exception $exception) {
+            } catch(Exception $exception) {
 
-				$this->addFlash('error', 'Impossible de créer l\'admin');
+                $this->addFlash('error', 'Impossible de créer l\'admin');
 
-				// si l'erreur vient de la clé d'unicité, je créé un message flash ciblé
-				if ($exception->getCode() === '1062') {
-					$this->addFlash('error',  'Email déjà pris.');
-				}
-            
-        }
+                // si l'erreur vient de la clé d'unicité, je créé un message flash ciblé
+                if ($exception->getCode() === '1062') {
+                    $this->addFlash('error',  'Email déjà pris.');
+                }
+            }
             //Affiche le formulaire de création
             return $this->render('admin/user/create-user.html.twig');
         }
+        // Affiche le formulaire de création si la méthode n'est pas POST
+        return $this->render('admin/user/create-user.html.twig');
     }
 
-            #[Route(path: '/admin/list-admins', name: 'admin-list-admins')]
-            public function displayListAdmins(UserRepository $userRepository) {
+    #[Route(path: '/admin/list-admins', name: 'admin-list-admins', methods: ['GET'])]
+    public function displayListAdmins(UserRepository $userRepository): Response {
 
-                $users = $userRepository->findAll();
+        $users = $userRepository->findAll();
 
-                return $this->render('/admin/user/list-users.html.twig', [
-                    'users' => $users
+        return $this->render('/admin/user/list-users.html.twig', [
+            'users' => $users
         ]);
     }
 }

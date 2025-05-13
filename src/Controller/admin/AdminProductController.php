@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\Response;
+
 
 
 
@@ -21,9 +23,9 @@ use App\Repository\ProductRepository;
 class AdminProductController extends AbstractController {
 
     //je créais une route pour afficher la page de création de produit url(/admin/create-product)
-	#[Route('/admin/create-product', name: 'admin-create-product')]
+	#[Route('/admin/create-product', name: 'admin-create-product', methods: ['GET', 'POST'])]
     //je fais appel au repository de la catégorie pour récupérer toutes les catégories et j'instancie l'entité Product
-	public function displayCreateProduct(CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $entityManager) {
+	public function displayCreateProduct(CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $entityManager): Response {
 
         //je vérifie si la création de produit est bien de la méthode ('POST')
 			if ($request->isMethod('POST')) {
@@ -71,8 +73,8 @@ class AdminProductController extends AbstractController {
 		]);
 	} 
 	
-	#[Route('/admin/list-products', name: 'admin-list-products')]
-	public function displayListProduct(ProductRepository $productRepository, EntityManagerInterface $entityManager) {
+	#[Route('/admin/list-products', name: 'admin-list-products', methods: ['GET'])]
+	public function displayListProduct(ProductRepository $productRepository): Response {
 		$products = $productRepository->findAll();
 
 		return $this->render('admin/product/list-products.html.twig', [
@@ -80,8 +82,8 @@ class AdminProductController extends AbstractController {
 		]);
 	}
 	
-	#[Route('/admin/delete-product/{id}', name:'admin-delete-product')] //Exo 15
-	public function deleteProduct($id, ProductRepository $productRepository, EntityManagerInterface $entityManager) {
+	#[Route('/admin/delete-product/{id}', name:'admin-delete-product', methods: ['GET'])] //Exo 15
+	public function deleteProduct(int $id, ProductRepository $productRepository, EntityManagerInterface $entityManager): Response {
 		
 		$product = $productRepository->find($id);
 		// Si le produit n'existe pas, redirige vers la page 404 admin
@@ -106,8 +108,8 @@ class AdminProductController extends AbstractController {
 	}
 	
 
-	#[Route('/admin/update-product/{id}', name: 'admin-update-product')]
-	public function displayUpdateProduct($id, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager) {
+	#[Route('/admin/update-product/{id}', name: 'admin-update-product', methods: ['GET', 'POST'])]
+	public function displayUpdateProduct(int $id, ProductRepository $productRepository, Request $request, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager): Response {
 
 		$product = $productRepository->find($id);
 
@@ -149,14 +151,13 @@ class AdminProductController extends AbstractController {
 			}			
 
 		}
-
 				$categories = $categoryRepository->findAll();
 
 				return $this->render('admin/product/update-product.html.twig', [
 					'categories' => $categories,
 						'product' => $product
 		]);
-}
+	}
 }
 
 /** seconde méthode pour créer un produit avec le formulaire Symfony
@@ -232,4 +233,11 @@ Dans le twig qui affiche tous les produits, affichez les avec un tableau HTML co
 Dans le controleur de suppression d'un produit :
 -- vérifier si le produit existe. S'il n'existe pas, redirigez vers la page 404
 -- Faites un try catch sur l'entity manager qui supprime le produit. Si ça réussi, ajoutez un message flash success. Si c'est dans le catch, ajoutez un message flash error
--- redirigez vers la liste des produits*/ 
+-- redirigez vers la liste des produits
+
+16 David: Côté guest : créez une page 404 (controleur + twig)
+Vérifiez tous vos controleurs de guest pour ajouter des redirection vers une page 404 si le produit ou la catégorie demandée n'a pas été trouvée.
+
+17 David: Rajoutez un peu de typage PHP dans vos controleurs et entités
+
+18 David: Rajoutez sur tous vos controleurs, au niveau de la route, les méthodes HTTP autorisées pour la requête(sécurité sup)*/ 
