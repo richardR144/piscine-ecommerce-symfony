@@ -3,7 +3,7 @@
 
 namespace App\Controller\admin;
 
-use Exeption;
+use Exception;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Controller\admin\Exception;
 use App\Repository\ProductRepository;
 
 
@@ -51,7 +50,7 @@ class AdminProductController extends AbstractController {
 				$entityManager->persist($product);
             	$entityManager->flush();
 
-			} catch (\Exception $exception) {
+			} catch (Exception $exception) {
 				$this->addFlash('error', $exception->getMessage());
 			}
 			
@@ -81,16 +80,28 @@ class AdminProductController extends AbstractController {
 		]);
 	}
 	
-	#[Route('/admin/delete-product/{id}', name:'admin-delete-product')]
+	#[Route('/admin/delete-product/{id}', name:'admin-delete-product')] //Exo 15
 	public function deleteProduct($id, ProductRepository $productRepository, EntityManagerInterface $entityManager) {
 		
 		$product = $productRepository->find($id);
+		// Si le produit n'existe pas, redirige vers la page 404 admin
+		if(!$product) {  
+			return $this->redirectToRoute('admin_404');
+		}
 
-		$entityManager->remove($product);
-		$entityManager->flush();
+		try {
+			// Supprime le produit de la base de données
+			$entityManager->remove($product);
+			$entityManager->flush();
 
-		$this->addFlash('success', 'Produit supprimé !');
+			// Ajoute un message flash de succès
+			$this->addFlash('success', 'Produit supprimé !');
 
+		} catch(Exception $exception) {
+			// En cas d'erreur, ajoute un message flash d'erreur
+			$this->addFlash('error', 'Impossible de supprimer le produit');
+		}
+		
 		return $this->redirectToRoute('admin-list-products');
 	}
 	
@@ -130,18 +141,20 @@ class AdminProductController extends AbstractController {
 
 				$entityManager->persist($product);
 				$entityManager->flush();
+
+				$this->addFlash('success', 'Produit supprimé !');
+
 			} catch (\Exception $exception) {
 				$this->addFlash('error', $exception->getMessage());
-			}
+			}			
 
 		}
 
+				$categories = $categoryRepository->findAll();
 
-		$categories = $categoryRepository->findAll();
-
-		return $this->render('admin/product/update-product.html.twig', [
-			'categories' => $categories,
-			'product' => $product
+				return $this->render('admin/product/update-product.html.twig', [
+					'categories' => $categories,
+						'product' => $product
 		]);
 }
 }
@@ -213,4 +226,10 @@ Dans le twig qui affiche tous les produits, affichez les avec un tableau HTML co
 -- affichez un formulaire HTML twig (le même que create), en pré remplissant chacun des inputs avec les données du produit récupéré
 
 8 David: Complétez la fonctionnalité de mise à jour d'un article : si le form est submit, récupérez les données du form, stockez les dans votre entité product 
-(soit avec les setters soit avec une méthode update) et enregistrez votre entité en BDD*/ 
+(soit avec les setters soit avec une méthode update) et enregistrez votre entité en BDD
+
+15 David: Créez une page 404 pour la zone d'admin
+Dans le controleur de suppression d'un produit :
+-- vérifier si le produit existe. S'il n'existe pas, redirigez vers la page 404
+-- Faites un try catch sur l'entity manager qui supprime le produit. Si ça réussi, ajoutez un message flash success. Si c'est dans le catch, ajoutez un message flash error
+-- redirigez vers la liste des produits*/ 

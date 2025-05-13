@@ -57,13 +57,13 @@ class AdminUserController extends AbstractController {
         }
     }
 
-    #[Route(path: '/admin/list-admins', name: 'admin-list-admins')]
-    public function displayListAdmins(UserRepository $userRepository) {
+            #[Route(path: '/admin/list-admins', name: 'admin-list-admins')]
+            public function displayListAdmins(UserRepository $userRepository) {
 
-        $users = $userRepository->findAll();
+                $users = $userRepository->findAll();
 
-        return $this->render('/admin/user/list-users.html.twig', [
-            'users' => $users
+                return $this->render('/admin/user/list-users.html.twig', [
+                    'users' => $users
         ]);
     }
 }
