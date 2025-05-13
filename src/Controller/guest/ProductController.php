@@ -50,12 +50,13 @@ class ProductController extends AbstractController {
 		$search = $request->query->get('search');
 
 		$productsFound = $productRepository->findByTitleContain($search); 
-		//dd($productsFound);
+
+		//dd($productsFound); 
 
 		//20 David: faire une requête select dans la table product avec le critère de recherche dans ProductRepository
 
 		return $this->render('guest/product/search-results.html.twig', [
-			'products' => $productsFound,
+			'productsFound' => $productsFound,
 			'search' => $search
 		]);
 		//au dessus, je retournes une Response et c'est obligatoire pour que Symfony puisse afficher la page de résultats 

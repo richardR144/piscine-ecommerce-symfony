@@ -247,4 +247,7 @@ Créez la page de resultats de recherche. Cette page pour l'instant ne fait que 
 
 20 David: dans le product repository, créez une nouvelle méthode findByTitleContain, permettant de faire une recherche SQL sur la table Product pour trouver tous les produits dont le titre contient la recherche utilisateur (utilisez le query builder et les parametres SQL)
 Utilisez cette méthode dans le controleur de recherche
-Faite un dd sur les résultats de recherche pour vérifier si ça correspond à ce que vous attendez (en fonction des termes recherchés)*/ 
+Faite un dd sur les résultats de recherche pour vérifier si ça correspond à ce que vous attendez (en fonction des termes recherchés)
+
+21 David: Dans votre controleur de recherche(search), affichez les résultats dans un fichier twig
+*/ 
