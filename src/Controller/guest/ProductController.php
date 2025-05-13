@@ -40,4 +40,14 @@ class ProductController extends AbstractController {
 
 	}
 
+
+	// Exo 19 Route pour afficher la page de résultats de recherche
+	#[Route(path: '/resultats-recherche', name:'product-search-results', methods: ['GET'])]
+	public function displayResultsSearchProducts(Request $request) {
+	// Récupère la valeur du champ 'search' envoyé dans l'URL (GET)
+		$search = $request->query->get('search');
+
+		//dd($search);
+
+
 }

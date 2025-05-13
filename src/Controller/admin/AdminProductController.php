@@ -240,4 +240,7 @@ Vérifiez tous vos controleurs de guest pour ajouter des redirection vers une pa
 
 17 David: Rajoutez un peu de typage PHP dans vos controleurs et entités
 
-18 David: Rajoutez sur tous vos controleurs, au niveau de la route, les méthodes HTTP autorisées pour la requête(sécurité sup)*/ 
+18 David: Rajoutez sur tous vos controleurs, au niveau de la route, les méthodes HTTP autorisées pour la requête(sécurité sup)
+
+19 David: Dans le header de la partie guest,ajoutez un formulaire avec un input "search". Le formulaire doit envoyer les données en GET et les envoyer vers une page "product-search-results" à créer
+Créez la page de resultats de recherche. Cette page pour l'instant ne fait que récupérer les données de recherche envoyées dans l'url et les affiche avec un dump*/ 
