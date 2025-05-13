@@ -6,20 +6,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class LoginController extends AbstractController {
-    #[Route('/login', name: "login")]
-    public function displayLogin(AuthenticationUtils $authenticationUtils){
 
+// Contrôleur pour la gestion de l'authentification des utilisateurs invités (guest)
+class LoginController extends AbstractController {
+    #[Route('/login', name: "login")]           // Route pour afficher le formulaire de connexion
+    public function displayLogin(AuthenticationUtils $authenticationUtils){
+        // Récupère la dernière erreur de connexion (s'il y en a une)
         $error = $authenticationUtils->getLastAuthenticationError();
 
         return $this->render('guest/login.html.twig', [
                 'error' => $error
         ]);        
     }
-
-    #[Route('/logout', name: "logout")]  //exo 10 + allez dans sécurité.yaml rajouter "default_target_path: admin-list-products" pour rediriger vers la liste des produits
-    public function logout(){
-
+    //exo 10 + allez dans sécurité.yaml rajouter 
+    //"default_target_path: admin-list-products" pour rediriger 
+    //vers la liste des produits
+    #[Route('/logout', name: "logout")]  
+    public function logout(){ 
+ // Cette méthode peut rester vide, elle sera interceptée par le firewall de Symfony
     }
 }
 

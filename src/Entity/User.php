@@ -7,36 +7,38 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#Déclaration de l'entité User liée à la table en base de données
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
+    #[ORM\Id]                   # Identifiant unique de l'utilisateur (clé primaire)
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180)]       #Adresse email de l'utilisateur (doit être unique)
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
+    #[ORM\Column]                       #Les rôles de l'utilisateur
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column]                       #Le mot de passe hashé de l'utilisateur
     private ?string $password = null;
 
-    public function getId(): ?int
+    public function getId(): ?int      #Retourne l'identifiant de l'utilisateur
     {
         return $this->id;
     }
 
-       public function createAdmin($email, $passwordHashed) {
+    #Initialise un utilisateur admin avec email, mot de passe hashé et rôle admin
+    public function createAdmin($email, $passwordHashed) { 
         $this->email = $email;
         $this->password = $passwordHashed;
 
