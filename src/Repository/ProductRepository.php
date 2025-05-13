@@ -11,9 +11,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, ProductRepository $productRepository)
     {
         parent::__construct($registry, Product::class);
+    }
+ //Exo 20 sécurité contre injections SQL
+    public function findByTitleContain(string $search): array {
+        $queryBuilder = $this->createQueryBuilder('product');
+        $query = $queryBuilder
+                ->select('product')
+            // le fait d'utiliser les parametres (donc mettre la variable
+            // contenant la recherche utilisateur en deux temps)
+            // permet de sécuriser la requête SQL (éviter les injections SQL)
+            // c'est à dire, vérifier que la recherche utilisateur ne contient
+            // de requête SQL (attaque)
+                
+                ->where('product.title LIKE :search')
+                ->setParameter('search', '%'.$search.'%')
+                ->getQuery();
+
+        return $query->getResult();
     }
 
     //    /**

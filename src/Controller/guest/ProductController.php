@@ -7,6 +7,7 @@ use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends AbstractController {
 
@@ -42,12 +43,23 @@ class ProductController extends AbstractController {
 
 
 	// Exo 19 Route pour afficher la page de résultats de recherche
+	//Un controller Symfony doit toujours retourner une Resdponse, car c'est ce qui sera envoyé au client(navigateur)
 	#[Route(path: '/resultats-recherche', name:'product-search-results', methods: ['GET'])]
-	public function displayResultsSearchProducts(Request $request) {
+	public function displayResultsSearchProducts(Request $request, ProductRepository $productRepository): Response {
 	// Récupère la valeur du champ 'search' envoyé dans l'URL (GET)
 		$search = $request->query->get('search');
 
-		//dd($search);
+		$productsFound = $productRepository->findByTitleContain($search); 
+		//dd($productsFound);
 
+		//20 David: faire une requête select dans la table product avec le critère de recherche dans ProductRepository
+
+		return $this->render('guest/product/search-results.html.twig', [
+			'products' => $productsFound,
+			'search' => $search
+		]);
+		//au dessus, je retournes une Response et c'est obligatoire pour que Symfony puisse afficher la page de résultats 
+		//de recherche à l'utilisateur
+	}
 
 }

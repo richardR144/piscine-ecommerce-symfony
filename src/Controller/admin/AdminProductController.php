@@ -243,4 +243,8 @@ Vérifiez tous vos controleurs de guest pour ajouter des redirection vers une pa
 18 David: Rajoutez sur tous vos controleurs, au niveau de la route, les méthodes HTTP autorisées pour la requête(sécurité sup)
 
 19 David: Dans le header de la partie guest,ajoutez un formulaire avec un input "search". Le formulaire doit envoyer les données en GET et les envoyer vers une page "product-search-results" à créer
-Créez la page de resultats de recherche. Cette page pour l'instant ne fait que récupérer les données de recherche envoyées dans l'url et les affiche avec un dump*/ 
+Créez la page de resultats de recherche. Cette page pour l'instant ne fait que récupérer les données de recherche envoyées dans l'url et les affiche avec un dump
+
+20 David: dans le product repository, créez une nouvelle méthode findByTitleContain, permettant de faire une recherche SQL sur la table Product pour trouver tous les produits dont le titre contient la recherche utilisateur (utilisez le query builder et les parametres SQL)
+Utilisez cette méthode dans le controleur de recherche
+Faite un dd sur les résultats de recherche pour vérifier si ça correspond à ce que vous attendez (en fonction des termes recherchés)*/ 
