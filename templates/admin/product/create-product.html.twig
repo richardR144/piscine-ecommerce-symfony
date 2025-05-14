@@ -9,7 +9,11 @@ Vacances ou bouffes | Créer un produit
 {% block main %}
 <h1>Créer un produit</h1>
 
-<form method="POST">
+{# quand un formulaire contient des données normales + des fichiers (images etc) 
+	 il faut ajouter l'attribut enctype="multipart/form-data" au formulaire
+	#}
+
+<form method="POST" enctype="multipart/form-data">
 	<label for="title">Titre
 		<input type="text" name="title">
 	</label>
@@ -34,6 +38,10 @@ Vacances ou bouffes | Créer un produit
 		{% endfor %}
 	
 	</select>
+	{#exo 22# uploads des images#}
+	<label for="image">Image
+		<input type="file" name="image">
+	</label>
 
 	<button type="submit">Créer votre produit</button>
 

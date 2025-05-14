@@ -3,29 +3,23 @@
 
 namespace App\Controller\admin;
 
-use Exception;
-use App\Entity\Product;
-use App\Entity\Category;
 use App\Repository\CategoryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProductRepository;
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-
-
-
-
-
+use Symfony\Component\Routing\Annotation\Route;
 
 class AdminProductController extends AbstractController {
 
     //je créais une route pour afficher la page de création de produit url(/admin/create-product)
 	#[Route('/admin/create-product', name: 'admin-create-product', methods: ['GET', 'POST'])]
     //je fais appel au repository de la catégorie pour récupérer toutes les catégories et j'instancie l'entité Product
-	public function displayCreateProduct(CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $entityManager): Response {
+	public function displayCreateProduct(CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $entityManager, \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag): Response {
 
         //je vérifie si la création de produit est bien de la méthode ('POST')
 			if ($request->isMethod('POST')) {
@@ -34,9 +28,8 @@ class AdminProductController extends AbstractController {
 			$description = $request->request->get('description');
 			$price = $request->request->get('price');
             $categoryId = $request->request->get('category-id'); //je récupère l'id de la catégorie par le nom du champ
-			//si le champ is-published est coché, je le met à true sinon false
-			
 
+			//si le champ is-published est coché, je le met à true sinon false
 			if ($request->request->get('is-published') === 'on') {
 				$isPublished = true;
 			} else {
@@ -46,11 +39,27 @@ class AdminProductController extends AbstractController {
 			//je fais appel au repository de la catégorie pour récupérer la catégorie par son id
             $category = $categoryRepository->find($categoryId);
 
+			//récupérer l'image dans le formulaire avec la propriété files
+			$image = $request->files->get('image');
+			//si une image a bien été envoyée
+			if($image) {
+				// je créé un nouveau nom unique pour l'image et je rajoute l'extension
+				// originale de l'image (.jpg ou .png etc)
+				$imageNewName = uniqid() .'.'. $image->guessExtension(); 
+				// je déplace l'image dans le dossier /public/uploads (je récupère le chemin du dossier grâce à la classe parameterbag) 
+				// et je la renomme avec le nouveau nom
+				$image->move($parameterBag->get('kernel.project_dir').'/public/uploads', $imageNewName);
+			}
+
 			try {
-				//je fais appel à l'entité Product pour créer un nouveau produit
-				$product = new Product($title, $description, $price, $isPublished, $category); //envoyer une catégory complète
+				// j'envoie le nom de l'image au constructeur de product pour
+				// stocker le nom de l'image dans le produit
+				$product = new Product($title, $description, $price, $isPublished, $category, $imageNewName); //envoyer une catégory complète
 				$entityManager->persist($product);
             	$entityManager->flush();
+
+				$this->addFlash('success', 'Produit créé');
+				return $this->redirectToRoute('admin-list-products');
 
 			} catch (Exception $exception) {
 				$this->addFlash('error', $exception->getMessage());
@@ -250,4 +259,14 @@ Utilisez cette méthode dans le controleur de recherche
 Faite un dd sur les résultats de recherche pour vérifier si ça correspond à ce que vous attendez (en fonction des termes recherchés)
 
 21 David: Dans votre controleur de recherche(search), affichez les résultats dans un fichier twig
-*/ 
+
+22 David: Ajoutez une propriété image de type string et nullable pour l'entité product
+Faites les migrations pour générer la colonne image en bdd dans la table product Dans l'admincreate
+Modifiez le formulaire de création de product pour ajouter le champs image (type file)
+
+23 David: Modifiez le formulaire de création de produit pour ajouter l'attribut enctype="multipart/form-data"
+Dans le controleur de création de produit, récupérez l'image envoyée
+Créez un nouveau nom unique pour cette image
+Déplacez là dans un dossier "uploads" dans le dossier public et renommez là avec le nouveau nom
+Stockez le nom de l'image dans l'entité Product grâce au constructor, pour pouvoir stocker toutes 
+les données du produit, incluant l'image, dans la bdd grâce à l'entity manager*/ 

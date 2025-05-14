@@ -35,8 +35,11 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     /*exercice 4 et 5*/ 
-    public function __construct(string $title, string $description, float $price, bool $isPublished, Category $category) {
+    public function __construct(string $title, string $description, float $price, bool $isPublished, Category $category, string $imageNewName) {
         if (strlen($title) < 3) {
             throw new Exception('Le titre doit faire plus de 3 caractères');
         }
@@ -45,6 +48,7 @@ class Product
         $this->price = $price;
         $this->isPublished = $isPublished;
         $this->category = $category;
+        $this->image = $imageNewName;
 
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
@@ -154,6 +158,18 @@ class Product
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
